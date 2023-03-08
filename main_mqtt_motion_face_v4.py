@@ -130,7 +130,7 @@ mqttc.loop_start()
 
 
 while True :
-    ret, frame = cap.read()
+    # ret, frame = cap.read()      # 이게 여기 있으면 ping과 충돌 발생하여 while 루프 빠져나감
     # print(time.time())
     # cv2.imshow("video", frame)
     if cv2.waitKey(30) & 0xff == 27:  # Esc 키를 누르면 종료
@@ -139,6 +139,7 @@ while True :
     # 주기적으로 이미지를 서버에 전송 
     now1 = time.time()        
     if isImage and (now1-past1) > para_interval:    
+        ret, frame = cap.read()
         frame_scaled = cv2.resize(frame, (int(para_scale*WIDTH), int(para_scale*HEIGHT)), interpolation=cv2.INTER_LINEAR)        # Image resize          
         retval, frame_jgp = cv2.imencode('.jpg', frame_scaled)                # Convert to jpg
         frame_string = base64.b64encode(frame_jgp).decode('utf8')      # Convert to base64 string   
@@ -159,6 +160,7 @@ while True :
     # Motion Detector: 움직임 발생시 이벤트 전송 
     now2 = time.time() 
     if isEvent and (now2-past2) > para_interval2:       
+        ret, frame = cap.read()
         scr = frame.copy()  # 화면에 다른점 표시할 이미지 백업 (frame이 3번째 프레임)
 
         # 그레이 스케일로 변경
@@ -221,6 +223,7 @@ while True :
     # Face Detector: 얼굴 발생시 이벤트 전송 
     now3 = time.time() 
     if isEvent and (now3-past3) > para_interval3:       
+        ret, frame = cap.read()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         faces = face_cascade.detectMultiScale(gray, 1.2, 5)
