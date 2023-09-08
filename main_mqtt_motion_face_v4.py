@@ -86,7 +86,7 @@ def on_message(client, obj, msg):
             }
 
         mqttc.publish(pub_topic, json.dumps(json_object))        
-        print(f"[HHCHOI] Sent Pong of {sys.getsizeof(json.dumps(json_object))} bytes at {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}")
+        print(f"{cameraId} Sent Pong of {sys.getsizeof(json.dumps(json_object))} bytes at {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}")
 
     if jsonRxMsg.get('isImage') is not None:        
         isImage = jsonRxMsg['isImage']
@@ -152,7 +152,7 @@ while True :
             }
 
         mqttc.publish(pub_topic, json.dumps(json_object))        
-        print(f"[HHCHOI] Sent Image of {sys.getsizeof(json.dumps(json_object))} bytes at {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}")
+        print(f"{cameraId} Sent Image of {sys.getsizeof(json.dumps(json_object))} bytes at {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}")
         past1 = now1
 
 
@@ -214,7 +214,7 @@ while True :
                 }
 
             mqttc.publish(pub_topic, json.dumps(json_object))        
-            print(f"[HHCHOI] Sent Event (motion) of {sys.getsizeof(json.dumps(json_object))} bytes at {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}")
+            print(f"{cameraId} Sent Event (motion) of {sys.getsizeof(json.dumps(json_object))} bytes at {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}")
             past2 = now2
 
 
@@ -248,7 +248,7 @@ while True :
                 }
 
             mqttc.publish(pub_topic, json.dumps(json_object))        
-            print(f"[HHCHOI] Sent Event ({len(faces)} faces) of {sys.getsizeof(json.dumps(json_object))} bytes at {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}")
+            print(f"{cameraId} Sent Event ({len(faces)} faces) of {sys.getsizeof(json.dumps(json_object))} bytes at {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}")
             past3 = now3
 
 
