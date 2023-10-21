@@ -64,29 +64,34 @@ def on_message(client, obj, msg):
     if jsonRxMsg.get('isPing') is not None:
         print(jsonRxMsg['isPing'])        
         ret, frame = cap.read()
-        frame_scaled = cv2.resize(frame, (int(para_scale*WIDTH), int(para_scale*HEIGHT)), interpolation=cv2.INTER_LINEAR)        # Image resize          
-        retval, frame_jgp = cv2.imencode('.jpg', frame_scaled)                # Convert to jpg
-        frame_string = base64.b64encode(frame_jgp).decode('utf8')      # Convert to base64 string   
-        
-        objPong = {
-                "isImage": isImage,
-                "isEvent": isEvent,
-                "isQuery": isQuery,
-                "scale": para_scale,
-                "interval": para_interval,
-                "threshold": para_threshold
-            }
 
-        json_object = {
-            "addr": cameraId,
-            "time": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3],
-            "type": "pong",            
-            "label": json.dumps(objPong),                
-            "image": frame_string
-            }
+        try:
+            frame_scaled = cv2.resize(frame, (int(para_scale*WIDTH), int(para_scale*HEIGHT)), interpolation=cv2.INTER_LINEAR)        # Image resize          
+            retval, frame_jgp = cv2.imencode('.jpg', frame_scaled)                # Convert to jpg
+            frame_string = base64.b64encode(frame_jgp).decode('utf8')      # Convert to base64 string   
+            
+            objPong = {
+                    "isImage": isImage,
+                    "isEvent": isEvent,
+                    "isQuery": isQuery,
+                    "scale": para_scale,
+                    "interval": para_interval,
+                    "threshold": para_threshold
+                }
 
-        mqttc.publish(pub_topic, json.dumps(json_object))        
-        print(f"[{cameraId}] Sent Pong of {sys.getsizeof(json.dumps(json_object))} bytes at {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}")
+            json_object = {
+                "addr": cameraId,
+                "time": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3],
+                "type": "pong",            
+                "label": json.dumps(objPong),                
+                "image": frame_string
+                }
+
+            mqttc.publish(pub_topic, json.dumps(json_object))        
+            print(f"[{cameraId}] Sent Pong of {sys.getsizeof(json.dumps(json_object))} bytes at {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}")
+        except:
+            print(f"Exception: {sys.exc_info()[0]}")
+            pass
 
     if jsonRxMsg.get('isImage') is not None:        
         isImage = jsonRxMsg['isImage']
