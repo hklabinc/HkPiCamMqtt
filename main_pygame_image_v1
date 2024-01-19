@@ -1,0 +1,26 @@
+import pygame
+import pygame.camera
+from pygame.locals import *
+import sys
+
+# Pygame 카메라 초기화
+pygame.init()
+pygame.camera.init()
+
+# 사용 가능한 카메라 리스트를 받아 첫 번째 카메라 사용
+camlist = pygame.camera.list_cameras()
+if not camlist:
+    raise ValueError("카메라를 찾을 수 없습니다.")
+
+cam = pygame.camera.Camera(camlist[0], (640, 480))
+cam.start()
+
+# 이미지 캡처
+image = cam.get_image()
+
+# 이미지를 파일로 저장
+pygame.image.save(image, 'captured_image.jpg')
+
+# 카메라 및 pygame 종료
+cam.stop()
+pygame.quit()

@@ -1,0 +1,37 @@
+import pygame
+import pygame.camera
+from pygame.locals import *
+
+# Pygame 및 카메라 초기화
+pygame.init()
+pygame.camera.init()
+
+# 사용 가능한 카메라 리스트를 받아 첫 번째 카메라 사용
+camlist = pygame.camera.list_cameras()
+if not camlist:
+    raise ValueError("카메라를 찾을 수 없습니다.")
+
+cam = pygame.camera.Camera(camlist[0], (640, 480))
+cam.start()
+
+# 디스플레이 윈도우 생성
+screen = pygame.display.set_mode((640, 480))
+
+try:
+    while True:
+        # 이벤트 처리
+        for event in pygame.event.get():
+            if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+                raise KeyboardInterrupt
+
+        # 이미지 캡처 및 화면에 표시
+        image = cam.get_image()
+        screen.blit(image, (0, 0))
+        pygame.display.flip()
+except KeyboardInterrupt:
+    # 사용자가 중단하면 루프 종료
+    print("스트리밍 중단됨")
+
+# 카메라 및 pygame 종료
+cam.stop()
+pygame.quit()
