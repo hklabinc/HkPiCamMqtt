@@ -1,0 +1,7 @@
+# 파일
+*.avi
+*.jpg
+
+# 폴더
+venv/
+.vscode/
