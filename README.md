@@ -7,5 +7,5 @@ python -m venv venv
 # git 하기
 git add .
 git commit -m "Update"
-git push origin main
-git add .; git commit -m "Update"; git push origin main
+git push origin master
+git add .; git commit -m "Update"; git push origin master

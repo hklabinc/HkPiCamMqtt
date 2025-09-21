@@ -7,8 +7,8 @@ if ! pgrep -f "main_mqtt_motion_face" > /dev/null; then
     if ping -c 1 ictrobot.hknu.ac.kr &> /dev/null; then
 	bash /home/pi/Projects/HkPiCamMqtt/start.sh 2
 #        python3 /home/pi/Projects/HkPiCamMqtt/hello_world_file.py
-#    else
 #        python3 /home/pi/Projects/HkPiCamMqtt/hello_world_file2.py
+#    else
     fi
 fi
 
