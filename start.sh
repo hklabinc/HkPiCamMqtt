@@ -1,5 +1,5 @@
 CamName="HK_PiCam04"
-FileName="/home/pi/Projects/HkPiCamMqtt/main_mqtt_motion_face_v4.py"
+FileName="/home/pi/Projects/HkPiCamMqtt/main_mqtt_motion_face_v5.py"
 
 if [ $# == 0 ]; then
         python3 $FileName $CamName
